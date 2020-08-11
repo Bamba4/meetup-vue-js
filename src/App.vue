@@ -1,61 +1,71 @@
 <template>
-  <v-app>
+  <v-app id="inspire">
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      temporary=""
+    >
+      <v-list dense>
+        <v-list-item link v-for="item in menuItems" v-bind:key="item.title" router :to="item.link">
+          <v-list-item-action>
+            <v-icon>{{item.icon}}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{item.title}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-app-bar
       app
-      color="primary"
-      dark
+      class="primary"
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title style="color: white">
+       <router-link to="/" tag="span" style="cursor: pointer">DevMeetup</router-link>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <v-toolbar-items class="hidden-xs-only">
+        <v-btn color="white" text v-for="item in menuItems" v-bind:key="item.title" router :to="item.link">
+          <v-icon left dark>{{item.icon}}</v-icon>
+          {{item.title}}
+        </v-btn>
+      </v-toolbar-items>
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <router-view></router-view>
     </v-main>
+    <v-footer
+      color="indigo"
+      app
+    >
+      <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
+    </v-footer>
   </v-app>
 </template>
-
 <script lang="ts">
 import Vue from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
 
 export default Vue.extend({
   name: 'App',
 
   components: {
-    HelloWorld
   },
-
+  props: {
+    source: String
+  },
   data: () => ({
-    //
+    sideNav: false,
+    drawer: null,
+    menuItems: [
+      { icon: 'mdi-account', title: 'View Meetups', link: '/meetups' },
+      { icon: 'mdi-map-marker', title: 'Organize Meetups', link: '/meetup/new' },
+      { icon: 'mdi-account', title: 'Profile', link: '/profile' },
+      { icon: 'mdi-face', title: 'Sign up', link: '/signUp' },
+      { icon: 'mdi-lock-open', title: 'Sign in', link: '/signIn' }
+    ]
   })
 })
 </script>
