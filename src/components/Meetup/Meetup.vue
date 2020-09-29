@@ -14,10 +14,8 @@
            height="400px"
          ></v-img>
          <v-card-text>
-           <div class="info--text">{{ meetup.date }} - whereit takes places</div>
-           <div>Thanks for providing education video.
-             Teacher, there was error when I import my js file beacuse of '@' operator.
-             How can I fix?</div>
+           <div class="info--text">{{ meetup.date | data }} - {{ meetup.location }}</div>
+           <div>{{ meetup.description }}</div>
          </v-card-text>
          <v-card-actions>
            <v-spacer></v-spacer>
